@@ -11,25 +11,62 @@
 以下是一个简单的使用案例：
 
 ```java
-String s = "你好鸭@{user}，我是@{name}。";
+String s =
+        "<!--   <script src=\"/js/jquery.min.js\"></script>\n" +
+        "       <script src=\"/js/bootstrap.min.js\"></script>\n" +
+        "       <script src=\"/ajax/libs/bootstrap-select/bootstrap-select.min.js\"></script>\n" +
+        "       <script src=\"/ajax/libs/bootstrap-select/bootstrap-select.js\"></script>\n" +
+        "-->";
 VarsContext context = new VarsContext(s);
-// VarsHandler是一个接口，用于处理变量
-String build = context.build(new VarsHandler() {
+context.setStart("<");
+context.setEnd(">");
+context.addIgnoredPrefix('!');
+context.addIgnoredPrefix('/');
+context.addIgnoredSuffix('-');
+String result = context.build(new VarsHandler() {
+
+    /**
+     * 处理变量
+     *
+     * @param position 全变量名的第一个字符在整个内容的位置
+     * @param var      全变量名，包括了左右标识
+     * @param content  变量内部名称，去除了左右标识
+     * @return 变量处理后的用于替换全变量名的字符，只会改变build(VarsHandler)方法返回值
+     */
     @Override
-    public String handle(String var, String content) {
-        switch (content) {
-            case "user":
-                return "Verlif";
-            case "name":
-                return "小助手";
-            default:
-                return var;
-        }
+    public String handle(int position, String var, String content) {
+        System.out.println(content);
+        return var;
     }
 });
+System.out.println("\n处理结果: \n" + result);
 ```
 
-输出`build`文本，可以得到`你好鸭Verlif，我是小助手。`。
+运行上述代码，可以得到以下结果：
+
+```text
+script src="/js/jquery.min.js"
+script src="/js/bootstrap.min.js"
+script src="/ajax/libs/bootstrap-select/bootstrap-select.min.js"
+script src="/ajax/libs/bootstrap-select/bootstrap-select.js"
+
+处理结果: 
+<!--   <script src="/js/jquery.min.js"></script>
+       <script src="/js/bootstrap.min.js"></script>
+       <script src="/ajax/libs/bootstrap-select/bootstrap-select.min.js"></script>
+       <script src="/ajax/libs/bootstrap-select/bootstrap-select.js"></script>
+-->
+```
+
+## 注意
+
+变量解析器并不支持变量内嵌，例如：
+
+```text
+@{@{name}}
+```
+
+只能被解析为变量`@{name`，而不是`@{name}`或`name`
 
 ## 添加依赖
 
@@ -62,7 +99,7 @@ String build = context.build(new VarsHandler() {
 >        <dependency>
 >            <groupId>com.github.Verlif</groupId>
 >            <artifactId>vars-parser</artifactId>
->            <version>0.1</version>
+>            <version>0.2</version>
 >        </dependency>
 >    </dependencies>
 > ```
@@ -70,7 +107,7 @@ String build = context.build(new VarsHandler() {
 > Gradle
 > ```text
 > dependencies {
->   implementation 'com.github.Verlif:vars-parser:0.1'
+>   implementation 'com.github.Verlif:vars-parser:0.2'
 > }
 > ```
 
