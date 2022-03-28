@@ -5,8 +5,12 @@
 
 ## 使用
 
-变量默认以`@{`开头，以`}`结尾。
-可以通过`VarsContext.setStart(String)`和`VarsContext.setEnd(String)`进行替换。
+### VarsContext
+
+__区域变量上下文__
+
+这里的区域变量是指被左右标识符包裹的变量，例如`${name}`。`VarsContext`默认以`@{`开头，以`}`结尾。
+可以通过`VarsContext.setStart(String)`和`VarsContext.setEnd(String)`进行修改。
 
 以下是一个简单的使用案例：
 
@@ -20,6 +24,7 @@ String s =
 VarsContext context = new VarsContext(s);
 context.setStart("<");
 context.setEnd(">");
+// 过滤一些符号，例如下一行代码则会过滤“<!”。过滤只对左标识生效。 
 context.addIgnoredPrefix('!');
 context.addIgnoredPrefix('/');
 context.addIgnoredSuffix('-');
@@ -58,7 +63,7 @@ script src="/ajax/libs/bootstrap-select/bootstrap-select.js"
 -->
 ```
 
-## 注意
+### 注意
 
 变量解析器并不支持变量内嵌，例如：
 
@@ -67,6 +72,46 @@ script src="/ajax/libs/bootstrap-select/bootstrap-select.js"
 ```
 
 只能被解析为变量`@{name`，而不是`@{name}`或`name`
+
+------
+
+### PartContext
+
+__部件变量上下文__
+
+这里的部件变量指的是一般的整体变量，例如`name`，对应的是一个确切的字符串。  
+通常情况下，我们会使用`String.replaceAll(String)`来替换，例如`"filename.suffix".repalceAll("\\.", "_")`将`.`替换为`_`。  
+但是遇到一些特殊情况时，例如一个长文本有一套替换规则时，`String.replaceAll(String)`可能就不是很好用了。
+
+所以这里提供了 __部件变量上下文__ 来作为替代品。
+
+```java
+String s = "abcdefg";
+Map<String, String> map = new HashMap<>();
+map.put("abd", "哈哈");
+map.put("bcd", "哈哈");
+map.put("cde", "哈哈");
+map.put("efg", "哈哈");
+
+PartContext context = new PartContext(s);
+System.out.println(context.apply(map));
+```
+
+运行所得结果是：
+
+```text
+a哈哈哈哈
+```
+
+可以看出，虽然`cde`也在字符串中出现，但是`bcd`更早地匹配了，所以`cde`被拆开了。  
+另外对于`abcd`与`abc`两个变量的匹配遵循 __长度优先__，也就是优先匹配`abcd`。
+
+这样做与循环`String.replaceAll(String)`的区别是：
+
+* 从字符串最左端依次判定，避免`replaceAll`出现的匹配不可控性
+* 非正则匹配，只是单纯的字符串替换，不需要担心变量名是否符合正则要求。
+* 对参数过百、目标字符串长度过千的处理速度更快（ __2000__ 长度字符串使用 __200__ 个变量参数替换，时间在 __100ms__ 以下）
+* 避免`replaceAll`过程中，替换后的字符串再次被命中的问题
 
 ## 添加依赖
 
@@ -99,7 +144,7 @@ script src="/ajax/libs/bootstrap-select/bootstrap-select.js"
 >        <dependency>
 >            <groupId>com.github.Verlif</groupId>
 >            <artifactId>vars-parser</artifactId>
->            <version>0.2</version>
+>            <version>0.3</version>
 >        </dependency>
 >    </dependencies>
 > ```
@@ -107,7 +152,7 @@ script src="/ajax/libs/bootstrap-select/bootstrap-select.js"
 > Gradle
 > ```text
 > dependencies {
->   implementation 'com.github.Verlif:vars-parser:0.2'
+>   implementation 'com.github.Verlif:vars-parser:0.3'
 > }
 > ```
 
