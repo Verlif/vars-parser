@@ -110,7 +110,7 @@ a哈哈哈哈
 
 * 从字符串最左端依次判定，避免`replaceAll`出现的匹配不可控性
 * 非正则匹配，只是单纯的字符串替换，不需要担心变量名是否符合正则要求。
-* 对参数过百、目标字符串长度过千的处理速度更快（ __2000__ 长度字符串使用 __200__ 个变量参数替换，时间在 __100ms__ 以下）
+* 速度极快（ __20000__ 长度字符串使用 __2000__ 个变量参数替换，时间在 __50ms__ 以下）
 * 避免`replaceAll`过程中，替换后的字符串再次被命中的问题
 
 ## 添加依赖
@@ -144,7 +144,7 @@ a哈哈哈哈
 >        <dependency>
 >            <groupId>com.github.Verlif</groupId>
 >            <artifactId>vars-parser</artifactId>
->            <version>0.3</version>
+>            <version>0.4</version>
 >        </dependency>
 >    </dependencies>
 > ```
@@ -152,7 +152,7 @@ a哈哈哈哈
 > Gradle
 > ```text
 > dependencies {
->   implementation 'com.github.Verlif:vars-parser:0.3'
+>   implementation 'com.github.Verlif:vars-parser:0.4'
 > }
 > ```
 

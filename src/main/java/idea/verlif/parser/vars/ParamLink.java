@@ -33,10 +33,16 @@ public class ParamLink {
     }
 
     public void link(String s) {
-        if (s.length() > 0) {
-            ParamLink link = linkMap.computeIfAbsent(s.charAt(0), character -> new ParamLink(character, deep + 1));
-            if (s.length() > 1) {
-                link.link(s.substring(1));
+        if (s.length() > deep) {
+            int nextDeep = deep + 1;
+            char c = s.charAt(deep);
+            ParamLink link = linkMap.get(c);
+            if (link == null) {
+                link = new ParamLink(c, nextDeep);
+                linkMap.put(c, link);
+            }
+            if (s.length() > nextDeep) {
+                link.link(s);
             }
         }
     }

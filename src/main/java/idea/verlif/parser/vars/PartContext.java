@@ -17,16 +17,23 @@ public class PartContext {
     }
 
     public String apply(Map<String, String> params) {
+        System.out.println("开始初始化:\t\t: " + System.currentTimeMillis());
         // 初始化参数链接表
-        Map<Character, ParamLink> linkMap = new HashMap<>(params.size());
+        Map<Character, ParamLink> linkMap = new HashMap<>(params.size() + 1);
         for (String key : params.keySet()) {
             if (key.length() > 0) {
-                ParamLink link = linkMap.computeIfAbsent(key.charAt(0), character -> new ParamLink(character, 1));
+                char c = key.charAt(0);
+                ParamLink link = linkMap.get(c);
+                if (link == null) {
+                    link = new ParamLink(c, 1);
+                    linkMap.put(c, link);
+                }
                 if (key.length() > 1) {
-                    link.link(key.substring(1));
+                    link.link(key);
                 }
             }
         }
+        System.out.println("完成初始化:\t\t: " + System.currentTimeMillis());
 
         // 遍历目标字符串，并替换
         Map<Character, ParamLink> tempMap = new HashMap<>(linkMap);
