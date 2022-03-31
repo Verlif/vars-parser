@@ -39,7 +39,6 @@ public class PartContext {
         for (int i = 0, length = chars.length; i < length; i++) {
             char c = chars[i];
             if (temp == null) {
-                // FIXME: 这里会存在 “ababc”中识别“abc”与“abd”出错
                 temp = tempMap.get(c);
             } else {
                 temp = temp.get(c);
