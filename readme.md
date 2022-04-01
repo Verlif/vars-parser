@@ -144,7 +144,7 @@ a哈哈哈哈
 >        <dependency>
 >            <groupId>com.github.Verlif</groupId>
 >            <artifactId>vars-parser</artifactId>
->            <version>0.4</version>
+>            <version>0.4.1</version>
 >        </dependency>
 >    </dependencies>
 > ```
@@ -152,7 +152,7 @@ a哈哈哈哈
 > Gradle
 > ```text
 > dependencies {
->   implementation 'com.github.Verlif:vars-parser:0.4'
+>   implementation 'com.github.Verlif:vars-parser:0.4.1'
 > }
 > ```
 

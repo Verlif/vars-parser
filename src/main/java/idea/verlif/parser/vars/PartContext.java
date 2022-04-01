@@ -17,7 +17,6 @@ public class PartContext {
     }
 
     public String apply(Map<String, String> params) {
-        System.out.println("开始初始化:\t\t: " + System.currentTimeMillis());
         // 初始化参数链接表
         Map<Character, ParamLink> linkMap = new HashMap<>(params.size() + 1);
         for (String key : params.keySet()) {
@@ -33,7 +32,6 @@ public class PartContext {
                 }
             }
         }
-        System.out.println("完成初始化:\t\t: " + System.currentTimeMillis());
 
         // 遍历目标字符串，并替换
         Map<Character, ParamLink> tempMap = new HashMap<>(linkMap);

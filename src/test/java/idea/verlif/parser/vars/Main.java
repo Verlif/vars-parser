@@ -39,9 +39,9 @@ public class Main {
 
     private static void testSons() throws InterruptedException {
         Map<String, String> map = new HashMap<>();
-        for (int i = 0; i < 2000; i++) {
+        for (int i = 0; i < 20000; i++) {
             StringBuilder sb = new StringBuilder();
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < 5; j++) {
                 sb.append((char) ('a' + Math.random() * 26));
             }
             map.put(sb.toString(), "哈哈");
@@ -58,7 +58,7 @@ public class Main {
         System.out.println("开始Son方法测试\t\t\t:\t" + System.currentTimeMillis());
         PartContext context = new PartContext(s);
         String result = context.apply(map);
-        System.out.println(result);
+//        System.out.println(result);
         System.out.println("Son方法测试结束\t\t\t:\t" + System.currentTimeMillis());
 
         Thread.sleep(200);
@@ -68,7 +68,7 @@ public class Main {
         for (String key : map.keySet()) {
             temp = temp.replaceAll(key, map.get(key));
         }
-        System.out.println(temp);
+//        System.out.println(temp);
         System.out.println("ReplaceAll测试结束\t\t:\t" + System.currentTimeMillis());
     }
 
