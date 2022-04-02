@@ -51,10 +51,31 @@ public class VarsContext {
         this.end = end;
     }
 
+    /**
+     * 设定区域变量标识
+     *
+     * @param start 左标识
+     * @param end   右标识
+     */
+    public void setAreaTag(String start, String end) {
+        this.start = start;
+        this.end = end;
+    }
+
+    /**
+     * 添加忽略的变量前缀
+     *
+     * @param c 变量前缀
+     */
     public void addIgnoredPrefix(char c) {
         ignoredPrefix.add(c);
     }
 
+    /**
+     * 添加忽略的变量后缀
+     *
+     * @param c 变量后缀
+     */
     public void addIgnoredSuffix(char c) {
         ignoredSuffix.add(c);
     }
@@ -75,8 +96,6 @@ public class VarsContext {
         StringBuilder sb = new StringBuilder();
         int st = -1, en = -1;
         boolean sta = false;
-        // 上一位字符
-        Character last = null;
         // 变量字符序号
         int i = -1, p = -1;
         // 开始遍历
@@ -104,7 +123,7 @@ public class VarsContext {
                         // 提取变量名
                         String var = sb.substring(0, sb.length() - endChars.length);
                         // 清空变量缓存
-                        sb.delete(0, sb.length());
+                        sb.setLength(0);
                         // 当变量名最后一个是被忽略的字符时
                         if (ignoredSuffix.size() == 0 || !ignoredSuffix.contains(var.charAt(var.length() - endChars.length))) {
                             String fullName = start + var + end;

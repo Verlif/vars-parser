@@ -16,6 +16,34 @@ public class PartContext {
         this.context = context;
     }
 
+    /**
+     * 清除字符串中的一些字符串
+     *
+     * @param targetStr 需要清除的字符串数组
+     * @return 清除后的结果
+     */
+    public String clear(String... targetStr) {
+        return replace("", targetStr);
+    }
+
+    /**
+     * 替换字符串
+     *
+     * @param newStr 替换的结果字符串
+     * @param oldStr 需替换的字符串数组
+     * @return 替换结果
+     */
+    public String replace(String newStr, String... oldStr) {
+        if (oldStr.length == 0) {
+            return context;
+        }
+        Map<String, String> map = new HashMap<>();
+        for (String s : oldStr) {
+            map.put(s, newStr);
+        }
+        return apply(map);
+    }
+
     public String apply(Map<String, String> params) {
         // 初始化参数链接表
         Map<Character, ParamLink> linkMap = new HashMap<>(params.size() + 1);
@@ -70,7 +98,7 @@ public class PartContext {
                         i -= paramBuilder.length() - param.length() + 1;
                     }
                     // 清空变量
-                    paramBuilder.delete(0, paramBuilder.length());
+                    paramBuilder.setLength(0);
                 } else {
                     resultBuilder.append(c);
                 }
@@ -81,7 +109,7 @@ public class PartContext {
         if (paramBuilder.length() > 0) {
             // 提取以解析到的变量名
             String param = paramBuilder.toString();
-            paramBuilder.delete(0, paramBuilder.length());
+            paramBuilder.setLength(0);
 
             // 查看是否存在这样的变量参数
             String value = params.get(param);

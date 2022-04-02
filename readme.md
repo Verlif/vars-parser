@@ -24,6 +24,8 @@ String s =
 VarsContext context = new VarsContext(s);
 context.setStart("<");
 context.setEnd(">");
+// 或者使用
+context.setAreaTag("<", ">");
 // 过滤一些符号，例如下一行代码则会过滤“<!”。过滤只对左标识生效。 
 context.addIgnoredPrefix('!');
 context.addIgnoredPrefix('/');
@@ -62,6 +64,8 @@ script src="/ajax/libs/bootstrap-select/bootstrap-select.js"
        <script src="/ajax/libs/bootstrap-select/bootstrap-select.js"></script>
 -->
 ```
+
+理论上使用`replaceAll`同样可以做到，但是`replaceAll`无法检阅每个标签的内容。
 
 ### 注意
 
@@ -113,6 +117,16 @@ a哈哈哈哈
 * 速度极快（ __20000__ 长度字符串使用 __2000__ 个变量参数替换，时间在 __50ms__ 以下）
 * 避免`replaceAll`过程中，替换后的字符串再次被命中的问题
 
+## 总述
+
+以下是使用推荐：
+
+* 需要 __少量__ 的 __常量替换__ ，例如将`name`替换为`Verlif`这种推荐使用`String.replaceAll`或者`PartContext.replace`。
+* 涉及到一些替换规范的，例如只能使用 __正则表达__ 的，请使用`String.replaceAll`。
+* 需要对 __格式变量__ 进行区分 __操作__ 的，例如`#{name}`这种被`#{`与`}`包裹的变量进行单独处理，推荐使用`VarsContext.build`。
+* 需要 __大量__ 的 __常量替换__ ，例如 __屏蔽字词表__ 推荐使用`PartContext.apply`。
+* 需要进行 __格式变量__ 替换，例如`#{hello}, 我的名字是#{name}, 来自#{from}`这种，推荐使用`VarsContext.build(VarsReplacement)`。
+
 ## 添加依赖
 
 1. 添加Jitpack仓库源
@@ -144,7 +158,7 @@ a哈哈哈哈
 >        <dependency>
 >            <groupId>com.github.Verlif</groupId>
 >            <artifactId>vars-parser</artifactId>
->            <version>0.4.1</version>
+>            <version>0.5</version>
 >        </dependency>
 >    </dependencies>
 > ```
@@ -152,7 +166,7 @@ a哈哈哈哈
 > Gradle
 > ```text
 > dependencies {
->   implementation 'com.github.Verlif:vars-parser:0.4.1'
+>   implementation 'com.github.Verlif:vars-parser:0.5'
 > }
 > ```
 
