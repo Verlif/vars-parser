@@ -23,7 +23,60 @@ public class PartContext {
      * @return 清除后的结果
      */
     public String clear(String... targetStr) {
-        return replace("", targetStr);
+        return replaceWith("", targetStr);
+    }
+
+    /**
+     * 使用替换数组依次替换字符串
+     *
+     * @param target 需替换的字符串
+     * @param values 替换数组
+     * @return 替换后的字符串
+     */
+    public String replace(String target, Object... values) {
+        if (target == null || values.length == 0) {
+            return context;
+        }
+        StringBuilder sb = new StringBuilder();
+        char[] recs = context.toCharArray();
+        // 当需要替换的为0长度字符时，进行每位插入
+        if (target.length() == 0) {
+            int i = 0, max = recs.length;
+            for (int length = values.length; i < length && i < max; i++) {
+                sb.append(values[i]).append(recs[i]);
+            }
+            if (i < max - 1) {
+                sb.append(recs, i, max);
+            }
+            return sb.toString();
+        }
+        char[] tars = target.toCharArray();
+        int i = 0, ofs = 0, flow = 0, max = recs.length;
+        for (int length = recs.length; i < length; i++) {
+            char c = recs[i];
+            if (c == tars[flow]) {
+                flow++;
+            } else {
+                i -= flow;
+                sb.append(recs[i]);
+                flow = 0;
+            }
+            // 匹配到目标字符串
+            if (flow == tars.length) {
+                flow = 0;
+                sb.append(values[ofs++]);
+                if (ofs == values.length) {
+                    break;
+                }
+            }
+        }
+        if (i < max) {
+            sb.append(recs, i + 1, max - i - 1);
+        }
+        if (flow > 0) {
+            sb.append(recs, max - flow, flow);
+        }
+        return sb.toString();
     }
 
     /**
@@ -33,11 +86,11 @@ public class PartContext {
      * @param oldStr 需替换的字符串数组
      * @return 替换结果
      */
-    public String replace(String newStr, String... oldStr) {
+    public String replaceWith(String newStr, String... oldStr) {
         if (oldStr.length == 0) {
             return context;
         }
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>(oldStr.length);
         for (String s : oldStr) {
             map.put(s, newStr);
         }

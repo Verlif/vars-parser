@@ -14,9 +14,9 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        String s = "hehellollo";
-        System.out.println(s.replace("hello", ""));
-        testVars2();
+        String s = "abcbacabc";
+        PartContext context = new PartContext(s);
+        System.out.println(context.replace("abc", "Verlif", "你大爷"));
     }
 
     private static void testParts2() {
@@ -122,7 +122,7 @@ public class Main {
 
         System.out.println("PartContext开始\t\t: " + System.currentTimeMillis());
         PartContext partContext = new PartContext(s);
-        String part = partContext.replace("", "{", "}");
+        String part = partContext.replaceWith("", "{", "}");
         System.out.println("PartContext结束\t\t: " + System.currentTimeMillis());
         System.out.println(part);
     }

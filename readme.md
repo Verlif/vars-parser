@@ -99,6 +99,8 @@ map.put("efg", "哈哈");
 
 PartContext context = new PartContext(s);
 System.out.println(context.apply(map));
+// 由于结果词相同，所以上述的方式等效于以下方法
+context.replaceWith("哈哈", "abc", "bcd", "cde", "efg");
 ```
 
 运行所得结果是：
@@ -116,6 +118,28 @@ a哈哈哈哈
 * 非正则匹配，只是单纯的字符串替换，不需要担心变量名是否符合正则要求。
 * 速度极快（ __20000__ 长度字符串使用 __2000__ 个变量参数替换，时间在 __50ms__ 以下）
 * 避免`replaceAll`过程中，替换后的字符串再次被命中的问题
+
+------
+
+#### PartContext.place
+
+PartContext.place与PartContext.placeWith使用了相同的参数格式，但两者的结果不一样。
+PartContext.placeWith中的第一个参数表示了替换结果词，后续的参数表示了替换目标。
+而PartContext.place正好相反，第一个参数表示了替换目标，后续的参数表示了依次替换的结果词。
+
+例如：
+
+```java
+String s = "你好?，我是?";
+PartContext context = new PartContext(s);
+System.out.println(context.replace("?", "Verlif", "Filrev"));
+```
+
+所得的结果就是：
+
+```text
+你好Verlif，我是Filrev
+```
 
 ## 总述
 
@@ -158,7 +182,7 @@ a哈哈哈哈
 >        <dependency>
 >            <groupId>com.github.Verlif</groupId>
 >            <artifactId>vars-parser</artifactId>
->            <version>0.5</version>
+>            <version>0.6</version>
 >        </dependency>
 >    </dependencies>
 > ```
@@ -166,7 +190,7 @@ a哈哈哈哈
 > Gradle
 > ```text
 > dependencies {
->   implementation 'com.github.Verlif:vars-parser:0.5'
+>   implementation 'com.github.Verlif:vars-parser:0.6'
 > }
 > ```
 
