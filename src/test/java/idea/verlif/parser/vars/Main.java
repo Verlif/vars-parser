@@ -14,9 +14,13 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        String s = "abcbacabc";
-        PartContext context = new PartContext(s);
-        System.out.println(context.replace("abc", "Verlif", "你大爷"));
+        String sql = "@DECRYPT(#{userId})";
+        VarsContext context = new VarsContext(sql);
+        context.setAreaTag("@{", "}");
+        context.build((i, s, s1) -> {
+            System.out.println(s1);
+            return s;
+        });
     }
 
     private static void testParts2() {

@@ -139,6 +139,8 @@ public class VarsContext {
                 if (st == startChars.length - 1) {
                     st = -1;
                     sta = true;
+                } else if (st > -1 && c != startChars[st]) {
+                    st = -1;
                 }
             }
         }
