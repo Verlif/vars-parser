@@ -182,7 +182,7 @@ System.out.println(context.replace("?", "Verlif", "Filrev"));
 >        <dependency>
 >            <groupId>com.github.Verlif</groupId>
 >            <artifactId>vars-parser</artifactId>
->            <version>0.6.1</version>
+>            <version>0.6.2</version>
 >        </dependency>
 >    </dependencies>
 > ```
@@ -190,7 +190,7 @@ System.out.println(context.replace("?", "Verlif", "Filrev"));
 > Gradle
 > ```text
 > dependencies {
->   implementation 'com.github.Verlif:vars-parser:0.6.1'
+>   implementation 'com.github.Verlif:vars-parser:0.6.2'
 > }
 > ```
 

@@ -127,7 +127,7 @@ public class VarsContext {
                         // 当变量名最后一个是被忽略的字符时
                         if (ignoredSuffix.size() == 0 || !ignoredSuffix.contains(var.charAt(var.length() - endChars.length))) {
                             String fullName = start + var + end;
-                            total.delete(total.length() - var.length() - startChars.length - 1, total.length());
+                            total.delete(total.length() - fullName.length(), total.length());
                             total.append(handler.handle(p - fullName.length() + 1, fullName, var));
                         }
                     }

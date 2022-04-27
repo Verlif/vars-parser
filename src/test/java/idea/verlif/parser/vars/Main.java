@@ -14,13 +14,8 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        String sql = "@DECRYPT(#{userId})";
-        VarsContext context = new VarsContext(sql);
-        context.setAreaTag("@{", "}");
-        context.build((i, s, s1) -> {
-            System.out.println(s1);
-            return s;
-        });
+        testVars();
+        testVars2();
     }
 
     private static void testParts2() {
@@ -97,12 +92,12 @@ public class Main {
 
     private static void testVars() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 10000; i++) {
-            sb.append("{");
+        for (int i = 0; i < 1000; i++) {
+            sb.append("{adv");
             for (int j = 0; j < Math.random() * 10; j++) {
                 sb.append((char) ('a' + Math.random() * 26));
             }
-            sb.append("}");
+            sb.append("vas}");
             for (int j = 0; j < Math.random() * 10; j++) {
                 sb.append((char) ('a' + Math.random() * 26));
             }
@@ -110,15 +105,15 @@ public class Main {
         String s = sb.toString();
 
         System.out.println("replace开始\t\t\t: " + System.currentTimeMillis());
-        String re = s.replaceAll("\\{", "");
-        re = re.replaceAll("}", "");
+        String re = s.replaceAll("\\{adv", "");
+        re = re.replaceAll("vas}", "");
         System.out.println("replace结束\t\t\t: " + System.currentTimeMillis());
         System.out.println(re);
         System.out.println();
 
         System.out.println("VarsContext开始\t\t: " + System.currentTimeMillis());
         VarsContext context = new VarsContext(s);
-        context.setAreaTag("{", "}");
+        context.setAreaTag("{adv", "vas}");
         String result = context.build((position, var, content) -> content);
         System.out.println("VarsContext结束\t\t: " + System.currentTimeMillis());
         System.out.println(result);
@@ -126,7 +121,7 @@ public class Main {
 
         System.out.println("PartContext开始\t\t: " + System.currentTimeMillis());
         PartContext partContext = new PartContext(s);
-        String part = partContext.replaceWith("", "{", "}");
+        String part = partContext.replaceWith("", "{adv", "vas}");
         System.out.println("PartContext结束\t\t: " + System.currentTimeMillis());
         System.out.println(part);
     }
