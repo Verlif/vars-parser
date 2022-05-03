@@ -14,8 +14,23 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        testVars();
-        testVars2();
+        String s =
+                        "                {if test:\"id != null\"}\n" +
+                        "                    WHERE user_id = #{id}\n" +
+                        "                {elseif test:\"name != null\"}\n" +
+                        "                    WHERE username = #{name}\n" +
+                        "                {elseif}\n" +
+                        "                    WHERE user_id > 10\n" +
+                        "                {fi}";
+        VarsContext context = new VarsContext(s);
+        context.setAreaTag("{if", "{fi}");
+        System.out.println(context.build(new VarsHandler() {
+            @Override
+            public String handle(int position, String var, String content) {
+                System.out.println(position);
+                return "";
+            }
+        }));
     }
 
     private static void testParts2() {
