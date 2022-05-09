@@ -1,4 +1,4 @@
-# VarsParser
+ # VarsParser
 
 文本变量操作器  
 非常小巧的解析器，无任何三方依赖，主要用于对可变数据进行变量化操作。
@@ -35,7 +35,7 @@ String result = context.build(new VarsHandler() {
     /**
      * 处理变量
      *
-     * @param position 全变量名的第一个字符在整个内容的位置
+     * @param position 全变量名的第一个字符在整个内容的位置，从0开始
      * @param var      全变量名，包括了左右标识
      * @param content  变量内部名称，去除了左右标识
      * @return 变量处理后的用于替换全变量名的字符，只会改变build(VarsHandler)方法返回值
@@ -182,7 +182,7 @@ System.out.println(context.replace("?", "Verlif", "Filrev"));
 >        <dependency>
 >            <groupId>com.github.Verlif</groupId>
 >            <artifactId>vars-parser</artifactId>
->            <version>0.6.3</version>
+>            <version>0.6.4</version>
 >        </dependency>
 >    </dependencies>
 > ```
@@ -190,7 +190,7 @@ System.out.println(context.replace("?", "Verlif", "Filrev"));
 > Gradle
 > ```text
 > dependencies {
->   implementation 'com.github.Verlif:vars-parser:0.6.3'
+>   implementation 'com.github.Verlif:vars-parser:0.6.4'
 > }
 > ```
 

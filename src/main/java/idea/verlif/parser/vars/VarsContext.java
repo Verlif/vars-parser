@@ -128,13 +128,15 @@ public class VarsContext {
                             if (ignoredSuffix.size() == 0 || !ignoredSuffix.contains(var.charAt(var.length() - endChars.length))) {
                                 String fullName = start + var + end;
                                 total.setLength(total.length() - fullName.length());
-                                total.append(handler.handle(total.length() + 1, fullName, var));
+                                total.append(handler.handle(total.length(), fullName, var));
                             }
                         }
-                    } else if (en > -1 && c != endChars[en]) {
-                        po -= en;
+                    } else if (en > -1) {
+                        po -= ++en;
                         total.setLength(total.length() - en);
+                        sb.setLength(sb.length() - en);
                         en = -1;
+                        i -= en;
                     }
                 }
             } else {
