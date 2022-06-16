@@ -21,7 +21,7 @@ String s =
         "       <script src=\"/ajax/libs/bootstrap-select/bootstrap-select.min.js\"></script>\n" +
         "       <script src=\"/ajax/libs/bootstrap-select/bootstrap-select.js\"></script>\n" +
         "-->";
-VarsContext context = new VarsContext(s);
+VarsContext context = new VarsContext();
 context.setStart("<");
 context.setEnd(">");
 // 或者使用
@@ -30,7 +30,7 @@ context.setAreaTag("<", ">");
 context.addIgnoredPrefix('!');
 context.addIgnoredPrefix('/');
 context.addIgnoredSuffix('-');
-String result = context.build(new VarsHandler() {
+String result = context.build(s, new VarsHandler() {
 
     /**
      * 处理变量
@@ -153,47 +153,53 @@ System.out.println(context.replace("?", "Verlif", "Filrev"));
 
 ## 添加依赖
 
+[![Release](https://jitpack.io/v/Verlif/vars-parser.svg)](https://jitpack.io/#Verlif/vars-parser)
+
 1. 添加Jitpack仓库源
 
-> maven
-> ```xml
-> <repositories>
->    <repository>
->        <id>jitpack.io</id>
->        <url>https://jitpack.io</url>
->    </repository>
-> </repositories>
-> ```
-
-> Gradle
-> ```text
-> allprojects {
->   repositories {
->       maven { url 'https://jitpack.io' }
->   }
-> }
-> ```
+- Maven
+    
+    ```xml
+    <repositories>
+       <repository>
+           <id>jitpack.io</id>
+           <url>https://jitpack.io</url>
+       </repository>
+    </repositories>
+    ```
+    
+- Gradle
+    
+    ```text
+    allprojects {
+      repositories {
+          maven { url 'https://jitpack.io' }
+      }
+    }
+    ```
 
 2. 添加依赖
 
-> maven
-> ```xml
->    <dependencies>
->        <dependency>
->            <groupId>com.github.Verlif</groupId>
->            <artifactId>vars-parser</artifactId>
->            <version>0.6.4</version>
->        </dependency>
->    </dependencies>
-> ```
+- Maven
 
-> Gradle
-> ```text
-> dependencies {
->   implementation 'com.github.Verlif:vars-parser:0.6.4'
-> }
-> ```
+    ```xml
+       <dependencies>
+           <dependency>
+               <groupId>com.github.Verlif</groupId>
+               <artifactId>vars-parser</artifactId>
+               <version>最新版本</version>
+           </dependency>
+       </dependencies>
+    ```
+
+- Gradle
+
+    ```text
+    dependencies {
+      implementation 'com.github.Verlif:vars-parser:最新版本'
+    }
+    ```
 
 ## 效率
 
-效率是不是最好我不保证，反正比`replaceAll`好太多了。可以自行验证。
+效率是不是最好我不保证，但是如果不需要正则规则的话，应该是比`replaceAll`好用。可以自行验证。

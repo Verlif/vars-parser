@@ -15,9 +15,9 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
         String s = "{if{fi}";
-        VarsContext context = new VarsContext(s);
+        VarsContext context = new VarsContext();
         context.setAreaTag("{if", "{fi}");
-        System.out.println(context.build(new VarsHandler() {
+        System.out.println(context.build(s, new VarsHandler() {
             @Override
             public String handle(int position, String var, String content) {
                 System.out.println(position);
@@ -25,6 +25,7 @@ public class Main {
                 return var;
             }
         }));
+        testVars();
     }
 
     private static void testParts2() {
@@ -82,9 +83,9 @@ public class Main {
         System.out.println("开始Vars方法测试\t\t\t:\t" + System.currentTimeMillis());
         VarsReplacement replacement = new VarsReplacement();
         replacement.putAll(map);
-        VarsContext varsContext = new VarsContext(s);
+        VarsContext varsContext = new VarsContext();
         varsContext.setAreaTag("#{", "}");
-        String vars = varsContext.build(replacement);
+        String vars = varsContext.build(s, replacement);
         System.out.println(vars);
         System.out.println("Vars方法测试结束\t\t\t:\t" + System.currentTimeMillis());
 
@@ -121,9 +122,9 @@ public class Main {
         System.out.println();
 
         System.out.println("VarsContext开始\t\t: " + System.currentTimeMillis());
-        VarsContext context = new VarsContext(s);
+        VarsContext context = new VarsContext();
         context.setAreaTag("{adv", "vas}");
-        String result = context.build((position, var, content) -> content);
+        String result = context.build(s, (position, var, content) -> content);
         System.out.println("VarsContext结束\t\t: " + System.currentTimeMillis());
         System.out.println(result);
         System.out.println();
@@ -141,8 +142,8 @@ public class Main {
         replacement.put("hello", "你好");
         replacement.put("name", "Verlif");
         replacement.put("from", "四川");
-        VarsContext varsContext = new VarsContext(s);
+        VarsContext varsContext = new VarsContext();
         varsContext.setAreaTag("#{", "}");
-        System.out.println(varsContext.build(replacement));
+        System.out.println(varsContext.build(s, replacement));
     }
 }

@@ -32,13 +32,7 @@ public class VarsContext {
      */
     protected String end = "}";
 
-    /**
-     * 上下文
-     */
-    protected final String context;
-
-    public VarsContext(String context) {
-        this.context = context;
+    public VarsContext() {
         ignoredPrefix = new HashSet<>();
         ignoredSuffix = new HashSet<>();
     }
@@ -80,11 +74,14 @@ public class VarsContext {
         ignoredSuffix.add(c);
     }
 
-    public String getContext() {
-        return context;
-    }
-
-    public String build(VarsHandler handler) {
+    /**
+     * 构建解析后的文本
+     *
+     * @param context 原文本
+     * @param handler 变量处理器
+     * @return 处理后的文本
+     */
+    public String build(String context, VarsHandler handler) {
         // 对变量区间进行构造
         char[] startChars = start.toCharArray();
         char[] endChars = end.toCharArray();
