@@ -1,5 +1,6 @@
 package idea.verlif.parser.vars;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -9,7 +10,7 @@ import java.util.Objects;
  * @version 1.0
  * @date 2022/3/28 11:02
  */
-public class ParamLink {
+public class ParamLink implements Serializable {
 
     /**
      * 点位字符
