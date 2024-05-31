@@ -6,9 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @author Verlif
- * @version 1.0
- * @date 2022/3/28 11:02
+ * 参数链结
  */
 public class ParamLink implements Serializable {
 
@@ -37,11 +35,7 @@ public class ParamLink implements Serializable {
         if (s.length() > deep) {
             int nextDeep = deep + 1;
             char c = s.charAt(deep);
-            ParamLink link = linkMap.get(c);
-            if (link == null) {
-                link = new ParamLink(c, nextDeep);
-                linkMap.put(c, link);
-            }
+            ParamLink link = linkMap.computeIfAbsent(c, c1 -> new ParamLink(c1, nextDeep));
             if (s.length() > nextDeep) {
                 link.link(s);
             }
